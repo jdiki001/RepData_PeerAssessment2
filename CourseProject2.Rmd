@@ -34,31 +34,40 @@ cleanData$EVTYPE <- gsub("^THUNDERSTORM WIND$", "THUNDERSTORM WINDS", cleanData$
 Aggregate the data to find the natural event type that caused the most injuries.
 
 ``` {r}
-aggregatedInjuries <- aggregate(cleanData$INJURIES, by = list(cleanData$EVTYPE), FUN = sum, na.rm=TRUE)
+aggregatedInjuries <- aggregate(cleanData$INJURIES, by = list(cleanData$EVTYPE), 
+                                FUN = sum, na.rm=TRUE)
 colnames(aggregatedInjuries) = c("event.type", "injury.total")
 catInjuries <- aggregatedInjuries[order(-aggregatedInjuries$injury.total) , ]
 mostInjuries <- catInjuries[1:15 , ]
-mostInjuries$event.type <- factor(mostInjuries$event.type, levels = mostInjuries$event.type, ordered = TRUE)
+mostInjuries$event.type <- factor(mostInjuries$event.type, 
+                                  levels = mostInjuries$event.type,
+                                  ordered = TRUE)
 ```
 
 Aggregate the data to find the natural event type that caused the most fatalities.
 
 ``` {r}
-aggregatedFatalities <- aggregate(cleanData$FATALITIES, by = list(cleanData$EVTYPE), FUN = sum, na.rm = TRUE)
+aggregatedFatalities <- aggregate(cleanData$FATALITIES, by = list(cleanData$EVTYPE), 
+                                  FUN = sum, na.rm = TRUE)
 colnames(aggregatedFatalities) = c("event.type", "fatality.total")
 catFatalities <- aggregatedFatalities[order(-aggregatedFatalities$fatality.total) , ] 
 mostFatalities <- catFatalities[1:15 , ]
-mostFatalities$event.type <- factor(mostFatalities$event.type, levels = mostFatalities$event.type, ordered = TRUE)
+mostFatalities$event.type <- factor(mostFatalities$event.type, 
+                                    levels = mostFatalities$event.type,
+                                    ordered = TRUE)
 ```
 
 Aggregate the data to find the natural event type that caused the most damage to property.
 
 ``` {r}
-aggregatedPropertyD <-aggregate(cleanData$PROPDMG, by = list(cleanData$EVTYPE), FUN = sum, na.rm = TRUE)
+aggregatedPropertyD <- aggregate(cleanData$PROPDMG, by = list(cleanData$EVTYPE),
+                                 FUN = sum, na.rm = TRUE)
 colnames(aggregatedPropertyD) = c("event.type", "prop.dmg.total")
 catPropertyD <- aggregatedPropertyD[order(-aggregatedPropertyD$prop.dmg.total) , ] 
 mostPropertyD <- catPropertyD[1:15 , ]
-mostPropertyD$event.type <- factor(mostPropertyD$event.type, levels = mostPropertyD$event.type, ordered = TRUE)
+mostPropertyD$event.type <- factor(mostPropertyD$event.type, 
+                                   levels = mostPropertyD$event.type,
+                                   ordered = TRUE)
 ```
 
 
@@ -70,7 +79,11 @@ Here is the graph showing the number of injuries caused by natural events in the
 
 ``` {r}
 library(ggplot2)
-ggplot(data = mostInjuries, aes(x = event.type, y = injury.total))  + ggtitle("Injuries Caused by Natural Events")+ geom_bar(stat = "identity") + xlab("Type of Natural Event") + ylab("Number of Injuries") + theme(axis.text.x = element_text(angle = 30, hjust = 1))
+ggplot(data = mostInjuries, aes(x = event.type, y = injury.total)) + 
+       ggtitle("Injuries Caused by Natural Events") + 
+       geom_bar(stat = "identity") + xlab("Type of Natural Event") + 
+       ylab("Number of Injuries") + 
+       theme(axis.text.x = element_text(angle = 30, hjust = 1))
 ```
 
 
@@ -78,7 +91,11 @@ Here is the graph showing the number of fatalities caused by natural events in t
 
 ``` {r}
 library(ggplot2)
-ggplot(data = mostFatalities, aes(x = event.type, y = fatality.total)) + ggtitle("Fatalities Caused by Natural Events") + geom_bar(stat = "identity") + xlab("Type of Natural Event") + ylab("Number of Fatalities") + theme(axis.text.x = element_text(angle = 45, hjust = 1))
+ggplot(data = mostFatalities, aes(x = event.type, y = fatality.total)) + 
+       ggtitle("Fatalities Caused by Natural Events") + 
+       geom_bar(stat = "identity") + xlab("Type of Natural Event") + 
+       ylab("Number of Fatalities") + 
+       theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
 
@@ -86,5 +103,9 @@ Here is the graph showing the number of properties that sustained damage caused 
 
 ```{r}
 library(ggplot2)
-ggplot(data = mostPropertyD, aes(x = event.type, y = prop.dmg.total)) +  ggtitle("Property Damage Caused by Natural Events") + geom_bar(stat = "identity") + xlab("Type of Natural Event") + ylab("Number of Properties Damaged") + theme(axis.text.x = element_text(angle = 45, hjust = 1))
+ggplot(data = mostPropertyD, aes(x = event.type, y = prop.dmg.total)) +  
+       ggtitle("Property Damage Caused by Natural Events") + 
+       geom_bar(stat = "identity") + xlab("Type of Natural Event") + 
+       ylab("Number of Properties Damaged") + 
+       theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
